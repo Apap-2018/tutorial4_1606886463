@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<head>
+    <title>Home</title>
+    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
+    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+<nav th:replace="fragments/fragment :: navbar"></nav>
+	<div class="table">
+	<br>
+	<h3 th:text="'Lihat Data Jabatan - ' + ${jabatan.nama}"></h3>
+	<br>
+	<table>
+		<tr>
+			<td>Nama</td>
+			<td th:text="${jabatan.nama}"></td>
+		</tr>
+		<tr>
+			<td>Deskripsi</td>
+			<td th:text="${jabatan.deskripsi}"></td>
+		</tr>
+		<tr>
+			<td>Gaji Pokok</td>
+			<td th:text="'Rp '+${jabatan.gaji_pokok}"></td>
+		</tr>
+	</table>
+	<br>
+	<row>
+	<div class="btn-group">
+	<form>
+			<button type="submit" class="btn btn-primary">Ubah</button>
+		</form>
+		<form>
+			<button type="submit" class="btn btn-secondary">Hapus</button>
+		</form>
+		</div>
+	</row>
+	</div>
+</body>
+</html>

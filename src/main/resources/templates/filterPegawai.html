@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<head>
+<title>Home</title>
+<object th:include="fragments/fragment :: jquery" th:remove="tag"></object>
+<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+<object th:include="fragments/fragment :: css_datatable" th:remove="tag"></object>
+<object th:include="fragments/fragment :: js_datatable" th:remove="tag"></object>
+</head>
+<body>
+	<nav th:replace="fragments/fragment :: navbar"></nav>
+	<div class="row" style="padding: 2% 2% 2% 2%; ">
+	<div class="col-md-3">
+	<form th:action="@{/pegawai/cari}" method="get">
+<div class="card bg-light mb-3" style="max-width:30rem" >
+ <h4 class="card-header">Search Filter</h4>
+  <div class="card-body">
+		<div class="form-group">
+			<label for="pilihProvinsi">Provinsi</label> <select
+				class="form-control" id="pilihProvinsi" name="idProvinsi">
+				<option value="null" selected>Pilih Provinsi</option>
+				<option th:each="provinsi: ${provinsi}" th:text="${provinsi.getNama()}" th:value="${provinsi.getId()}"></option>
+			</select>
+		</div>
+		<div class="form-group">
+
+			<label for="pilihInstansi">Instansi</label> <select
+				class="form-control" id="pilihInstansi" name="idInstansi" >
+				<option value='null' selected>Pilih Instansi</option>
+			</select>
+		</div>
+				<div class="form-group">
+			<label for="pilihJabatan">Jabatan</label> <select
+				class="form-control" id="pilihJabatan" name="idJabatan">
+				<option value="null" selected>Pilih Jabatan</option>
+				<option th:each="jabatan: ${jabatan}" th:text="${jabatan.getNama()}" th:value="${jabatan.getId()}"></option>
+			</select>
+		</div>
+				</div>
+								    <button type="submit" class="btn btn-primary">Submit</button>
+			
+				</div>
+		</div>
+		
+	</form>
+	
+	
+<div class="col-md-9" style="text-align:center;">
+<div class="preload" style="display:inline-block; margin-top:30vh">
+<img src="http://i.imgur.com/KUJoe.gif">
+</div>
+<table id="tabelPegawai" style="display:none; margin: 2% 2% 2% 2%;">
+			<thead>
+				<tr>
+				<th>NIP</th>
+				<th>Nama</th>
+				<th>Tempat Lahir</th>
+				<th>Tanggal Lahir</th>
+				<th>Tahun Masuk</th>
+				<th>Nama Instansi</th>
+				<th>Jabatan</th>
+			</tr>
+			</thead>
+			<tbody>
+				<tr th:each="pegawai : ${queries}">
+					<td th:text="${pegawai.nip}"></td>
+					<td th:text="${pegawai.nama}"></td>
+					<td th:text="${pegawai.tempat_lahir}"></td>
+					<td th:text="${pegawai.tanggal_lahir}"></td>
+					<td th:text="${pegawai.tahun_masuk}"></td>
+					<td th:text="${pegawai.instansi.nama}+' - '+${pegawai.instansi.provinsi.nama}"></td>
+					<td><ul>
+                    <li th:each="jabatan : ${pegawai.jabatan}">
+                        <span th:text="${jabatan.nama}"></span>
+                    </li>
+                </ul></td>
+				</tr>
+		</table>
+</div>
+	
+	</div>
+	
+
+</body>
+<script>
+
+$(function() {
+	$(".preload").fadeOut(0, function() {
+		$('#tabelPegawai').DataTable();
+		$('#tabelPegawai').show();    });
+	$('#tabelPegawai').show();
+	$.populateInstansi = function(){
+		$.getJSON( "/instansi/get?provinsi="+$('#pilihProvinsi option:selected').val(), function( data ) {
+			$.each(data, function(i, value) {
+		            $('#pilihInstansi').append($('<option>',{value:value.id,text:value.nama}));
+	        });
+		});
+		}
+	$("#pilihInstansi").html("<option value='null' selected>Pilih Instansi</option>");
+	 $('#pilihProvinsi').on('change', function() {
+			 $.populateInstansi();
+
+		});
+});
+
+</script>
+
+</html>

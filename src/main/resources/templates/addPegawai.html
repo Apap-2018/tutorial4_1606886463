@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<head>
+<title>Home</title>
+<object th:include="fragments/fragment :: jquery" th:remove="tag"></object>
+<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+<object th:include="fragments/fragment :: js" th:remove="tag"></object>
+</head>
+<body>
+	<nav th:replace="fragments/fragment :: navbar"></nav>
+	<div class="card bg-light mb-3" style="margin: 5% 5% 5% 5%;" >
+  <h3 class="card-header">Tambah Data Pegawai</h3>
+  <div class="card-body">
+
+	<form action="#" th:action="@{/pegawai/add}" th:object="${pegawai}"
+		method="post">
+		<input hidden
+					value="1234" th:field="*{nip}">
+	<!-- 	<div class="form-group">
+			<label for="nipInput">NIP</label> <input type="text"
+				class="form-control" id="nipInput" aria-describedby="nipHelp"
+				placeholder="Masukkan NIP" th:field="*{nip}"> <small
+				id="emailHelp" class="form-text text-muted">Isi dengan Nomor
+				Induk Kepegawaian</small>
+		</div> -->
+		<div class="form-group">
+			<label for="namaInput">Nama</label> <input type="text"
+				class="form-control" id="namaInput" aria-describedby="namaHelp"
+				placeholder="Masukkan Nama" th:field="*{nama}"> <small
+				id="namaHelp" class="form-text text-muted">Masukkan Nama
+				Sesuai KTP</small>
+		</div>
+		<div class="form-row">
+			<div class="form-group col-md-6">
+				<label for="inputTL">Tempat Lahir</label> <input type="text"
+					class="form-control" placeholder="Masukkan Tempat Lahir"
+					id="inputTL" th:field="*{tempat_lahir}">
+			</div>
+			<div class="form-group col-md-6">
+				<label for="inputBD">Tanggal Lahir</label> <input type="date"
+					class="form-control" id="inputBD" th:field="*{tanggal_lahir}">
+			</div>
+		</div>
+
+<div class="card bg-light mb-3" >
+ <div class="card-header">Unit Kerja</div>
+  <div class="card-body">
+		<div class="form-group">
+			<label for="pilihProvinsi">Provinsi</label> <select
+				class="form-control" id="pilihProvinsi">
+				<option value="" disabled selected>Pilih Provinsi</option>
+				<option th:each="provinsi: ${provinsi}"
+					th:text="${provinsi.getNama()}" th:value="${provinsi.getId()}"></option>
+			</select>
+		</div>
+		<div class="form-group">
+
+			<label for="pilihInstansi">Instansi</label> <select
+				class="form-control" id="pilihInstansi" name="instansi" th:field="*{instansi}" >
+				<option value="" disabled selected>Pilih Instansi</option>
+			</select>
+		</div>
+				<div class="form-group">
+			<label for="namaInput">Tahun Masuk</label> <input type="text"
+				class="form-control" id="namaInput" aria-describedby="namaHelp"
+				placeholder="Masukkan Tahun" th:field="*{tahun_masuk}"> <small
+				id="namaHelp" class="form-text text-muted">Tahun Yang
+				Bersangkutan Masuk Instansi</small>
+		</div>
+				</div>
+				</div>
+<div class="card bg-light mb-3" >
+  <div class="card-header">Jabatan</div>
+  <div class="card-body">
+		<div class="form-inline mb-2" th:each="jabatan,rowStat : *{jabatan}">
+		<div class="input-group mb-2">
+		<select
+				class="form-control" id="pilihJabatan"
+				th:field="*{jabatan[__${rowStat.index}__]}">
+				<option th:each="jabatanItem: ${jabatanList}"
+					th:text="${jabatanItem.getNama()}" th:value="${jabatanItem.id}"></option>
+			</select>
+			<div class="input-group-addon">
+			<button class="btn btn-danger" th:value="${rowStat.index}" type="submit" name="deleteRow">X</button>
+			</div>
+		</div>
+		</div>
+		</div>
+		<div class="card-footer">
+    		<button class="btn btn-secondary"  type="submit" name="addRow">Add Jabatan</button>
+ 	 </div>
+ 	 
+		</div>
+		
+		</div>
+				    <button type="submit" name="pegawaiSubmit" class="btn btn-primary">Submit</button>
+		
+	</form>
+
+</body>
+<script>
+$('#pilihProvinsi').on('change', function() {
+	$("#pilihInstansi").html("<option disabled selected>Pilih Instansi</option>");
+	$.getJSON( "/instansi/get?provinsi="+this.value, function( data ) {
+		$.each(data, function(i, value) {
+            $('#pilihInstansi').append($('<option>',{value:value.id,text:value.nama}));
+        });
+	});
+});
+</script>
+
+</html>

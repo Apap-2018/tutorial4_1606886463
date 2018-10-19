@@ -1,59 +1,55 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Home</title>
-    <object th:include="fragments/fragment :: css" th:remove="tag"></object>
-    <object th:include="fragments/fragment :: js" th:remove="tag"></object>
+<title>Home</title>
+<object th:include="fragments/fragment :: css" th:remove="tag"></object>
+<object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
 <body>
-<nav th:replace="fragments/fragment :: navbar"></nav>
-     <div class="container-fluid">
-        <h1>Hello!</h1>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        Tambah Pilot
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">Fitur untuk menambah pilot</p>
-                        <a class="btn btn-primary" th:href="@{/pilot/add}">Tambah</a>
-                    </div>
-                </div>
-            </div>
+	<nav th:replace="fragments/fragment :: navbar"></nav>
+	<div class="container-fluid">
+		<div class="jumbotron" style="margin-top: 1%;">
+			<div class="container">
+				<h1 class="display-5">Sistem Informasi Kepegawaian</h1>
+				<p class="lead">Selamat datang di Sistem Informasi Kepegawaian.</p>
+			</div>
+		</div>
+		<div class="row">
 
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        Lihat Semua Penerbangan
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text">Fitur untuk melihat penerbangan</p>
-                        <a class="btn btn-primary" th:href="@{/flight/view/all}">Lihat</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-header">
-                        Cari pilot berdasarkan nomor lisensi
-                    </div>
-                    <div class="card-body">
-                        <form th:action="@{/pilot/view}" method="GET">
-                            <label for="licenseNumber">License Number</label>
-                            <input id="licenseNumber" type="text" name="licenseNumber" class="form-control">
-                            <input type="submit" class="btn btn-primary mt-2" value="Cari">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+			<!-- 		 FORM DATA PEGAWAI   -->
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header">Lihat Data Pegawai Berdasarkan NIP</div>
+					<div class="card-body">
+						<form th:action="@{/pegawai}" method="GET">
+							<label for="nip">Masukkan Nomor Induk Pegawai</label> <input
+								id="nip" type="text" name="nip" class="form-control"> <input
+								type="submit" class="btn btn-primary mt-2" value="Lihat">
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- 		END FORM DATA PEGAWAI   -->
+			<!-- 		 FORM DATA JABATAN   -->
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header">Lihat Detail Jabatan</div>
+					<div class="card-body">
+						<form th:action="@{/jabatan/view}" method="GET">
+							<div class="form-group">
+								<label for="exampleFormControlSelect2">Pilih Jabatan</label> <select
+									class="form-control" id="exampleFormControlSelect2" name="idJabatan">
+									<option th:each="jabatan: ${jabatan}"
+										th:text="${jabatan.getNama()}" th:value="${jabatan.getId()}"></option>
+								</select>
+							</div>
+							<input type="submit" class="btn btn-primary mt-2" value="Lihat">
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- 		END FORM DATA JABATAN   -->
+		</div>
+	</div>
 </body>
 </html>
