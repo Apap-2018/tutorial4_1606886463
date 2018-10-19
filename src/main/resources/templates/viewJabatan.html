@@ -4,6 +4,7 @@
 <meta charset="ISO-8859-1">
 <head>
     <title>Home</title>
+    <object th:include="fragments/fragment :: jquery" th:remove="tag"></object>
     <object th:include="fragments/fragment :: css" th:remove="tag"></object>
     <object th:include="fragments/fragment :: js" th:remove="tag"></object>
 </head>
@@ -30,14 +31,31 @@
 	<br>
 	<row>
 	<div class="btn-group">
-	<form>
+	<form th:action="@{/jabatan/ubah}" method="GET">
+	<input type="hidden" name="id_jabatan" th:value="${jabatan.id}"></input>
 			<button type="submit" class="btn btn-primary">Ubah</button>
 		</form>
-		<form>
-			<button type="submit" class="btn btn-secondary">Hapus</button>
+		<form th:action="@{/jabatan/hapus}" method="POST">
+			<input type="hidden" name="id" th:value="${jabatan.id}"></input>
+			<input type="hidden" name="nama" th:value="${jabatan.nama}"></input>
+			<button style="display:none" id="deleteButton" type="submit" class="btn btn-secondary"></button>
 		</form>
 		</div>
 	</row>
 	</div>
 </body>
+<script>
+$(function() {
+	$.getJSON( "/jabatan/hapus/check?id_jabatan="+[[${jabatan.id}]], function( data ) {
+		if (data.canDelete === "false") {
+			$("#deleteButton").html('Cannot Be Deleted');
+			$("#deleteButton").prop('disabled', true);
+		}
+		else {
+			$("#deleteButton").html('Delete');
+		}
+		$("#deleteButton").show();
+	});
+});
+</script>
 </html>

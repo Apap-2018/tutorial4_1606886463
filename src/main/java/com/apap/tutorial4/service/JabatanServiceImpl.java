@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.apap.tutorial4.model.JabatanModel;
-import com.apap.tutorial4.model.PegawaiModel;
 import com.apap.tutorial4.repository.JabatanDB;
 
 @Service
@@ -27,5 +26,19 @@ public class JabatanServiceImpl implements JabatanService {
 	@Override
 	public void addJabatan(JabatanModel jabatan) {
 		jabatanDb.save(jabatan);
+	}
+	@Override
+	public void updateJabatan(JabatanModel jabatan) {
+		JabatanModel newJabatan = jabatanDb.getOne(jabatan.getId());
+		newJabatan.setNama(jabatan.getNama());
+		newJabatan.setDeskripsi(jabatan.getDeskripsi());
+		newJabatan.setGaji_pokok(jabatan.getGaji_pokok());
+		
+        jabatanDb.save(jabatan);
+		
+	}
+	@Override
+	public void deleteJabatanById(long id) {
+		jabatanDb.deleteById(id);	
 	}
 }

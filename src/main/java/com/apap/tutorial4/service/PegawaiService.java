@@ -11,4 +11,6 @@ public interface PegawaiService {
 	PegawaiModel pegawaiByNip(String nip);
 	void removePegawai(long id);
 	List<PegawaiModel> getAllPegawai();
+	public PegawaiModel getPegawaiTertua(long idInstansi);
+	public PegawaiModel getPegawaiTermuda(long idInstansi);
 }

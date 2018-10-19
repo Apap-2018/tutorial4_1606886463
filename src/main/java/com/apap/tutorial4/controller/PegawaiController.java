@@ -44,6 +44,7 @@ public class PegawaiController {
 	private String home(Model model) {
     	List<JabatanModel> jabatanList = jabatanService.getAllJabatan();
 		model.addAttribute("jabatan", jabatanList);
+		model.addAttribute("instansi", instansiService.getAllInstansi());
 		return "home";
 	}
 	
@@ -230,6 +231,29 @@ public class PegawaiController {
 	    	return "filterPegawai";
 	    }
 	    
+	    @RequestMapping(value = "/pegawai/termuda-tertua", method = RequestMethod.GET)
+		private String getPilotTertuaTermuda(@RequestParam("idInstansi") long idInstansi, Model model) {
+			PegawaiModel tertua = pegawaiService.getPegawaiTertua(idInstansi);
+			PegawaiModel termuda = pegawaiService.getPegawaiTermuda(idInstansi);
+			List<JabatanModel> jabatanTertua = tertua.getJabatan();
+			Collections.sort(jabatanTertua);
+			Double gajiTertua = 
+				(jabatanTertua.get(0).getGaji_pokok() + 
+				(jabatanTertua.get(0).getGaji_pokok() * 
+				(tertua.getInstansi().getProvinsi().getPresentase_tunjangan()/100)));
+			List<JabatanModel> jabatanTermuda= termuda.getJabatan();
+			Collections.sort(jabatanTermuda);
+			Double gajiTermuda = 
+				(jabatanTermuda.get(0).getGaji_pokok() + 
+				(jabatanTermuda.get(0).getGaji_pokok() * 
+				(termuda.getInstansi().getProvinsi().getPresentase_tunjangan()/100)));
+			
+			model.addAttribute("tertua", tertua);
+			model.addAttribute("gajiTertua", gajiTertua);
+			model.addAttribute("termuda", termuda);
+			model.addAttribute("gajiTermuda", gajiTermuda);
+			return "tertuaTermuda";
+		}
 	    
 
 	

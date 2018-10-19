@@ -38,7 +38,7 @@
 						<form th:action="@{/jabatan/view}" method="GET">
 							<div class="form-group">
 								<label for="exampleFormControlSelect2">Pilih Jabatan</label> <select
-									class="form-control" id="exampleFormControlSelect2" name="idJabatan">
+									class="form-control" id="exampleFormControlSelect2" name="id_jabatan">
 									<option th:each="jabatan: ${jabatan}"
 										th:text="${jabatan.getNama()}" th:value="${jabatan.getId()}"></option>
 								</select>
@@ -49,6 +49,25 @@
 				</div>
 			</div>
 			<!-- 		END FORM DATA JABATAN   -->
+			<!-- 		 FORM PEGAWAI SORT    -->
+			<div class="col-md-6">
+				<div class="card">
+					<div class="card-header">Lihat Pegawai Termuda dan Tertua</div>
+					<div class="card-body">
+						<form th:action="@{/pegawai/termuda-tertua}" method="GET">
+							<div class="form-group">
+								<label for="exampleFormControlSelect2">Pilih Instansi</label> <select
+									class="form-control" id="exampleFormControlSelect2" name="idInstansi">
+									<option th:each="instansi: ${instansi}"
+										th:text="${instansi.getNama()+' - '+instansi.getProvinsi().getNama()}" th:value="${instansi.getId()}"></option>
+								</select>
+							</div>
+							<input type="submit" class="btn btn-primary mt-2" value="Lihat">
+						</form>
+					</div>
+				</div>
+			</div>
+			<!-- 		FORM PEGAWAI SORT   -->
 		</div>
 	</div>
 </body>

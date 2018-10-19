@@ -1,5 +1,8 @@
 package com.apap.tutorial4.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.apap.tutorial4.model.PegawaiModel;
+import com.apap.tutorial4.repository.InstansiDB;
 import com.apap.tutorial4.repository.PegawaiDB;
 
 @Service
@@ -14,6 +18,8 @@ import com.apap.tutorial4.repository.PegawaiDB;
 public class PegawaiServiceImpl implements PegawaiService{
 @Autowired
 private PegawaiDB pegawaiDb;
+@Autowired
+private InstansiDB instansiDb;
 
 @Override
 public void addPegawai(PegawaiModel pegawai) {
@@ -77,6 +83,40 @@ public PegawaiModel pegawaiByNip(String nip) {
 public void removePegawai(long id) {
 	pegawaiDb.deleteById(id);
 }
+@Override
+public PegawaiModel getPegawaiTertua(long idInstansi) {
 
-
+	List<PegawaiModel> pegawaiInstansi = new ArrayList<PegawaiModel>();
+	for (PegawaiModel pegawai :this.getAllPegawai()) {
+		if (pegawai.getInstansi().getId()==idInstansi) {
+			pegawaiInstansi.add(pegawai);
+		}
+	}
+	PegawaiModel select = pegawaiInstansi.get(0);
+	for (int i=1; i<pegawaiInstansi.size(); i++) {
+		if (pegawaiInstansi.get(i).getTanggal_lahir().before(select.getTanggal_lahir())) {
+			select = pegawaiInstansi.get(i);
+		}
+	}
+	return select;
 }
+
+@Override
+public PegawaiModel getPegawaiTermuda(long idInstansi) {
+
+	List<PegawaiModel> pegawaiInstansi = new ArrayList<PegawaiModel>();
+	for (PegawaiModel pegawai :this.getAllPegawai()) {
+		if (pegawai.getInstansi().getId()==idInstansi) {
+			pegawaiInstansi.add(pegawai);
+		}
+	}
+	PegawaiModel select = pegawaiInstansi.get(0);
+	for (int i=1; i<pegawaiInstansi.size(); i++) {
+		if (pegawaiInstansi.get(i).getTanggal_lahir().after(select.getTanggal_lahir())) {
+			select = pegawaiInstansi.get(i);
+		}
+	}
+	return select;
+}
+}
+
