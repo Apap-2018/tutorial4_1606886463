@@ -214,10 +214,6 @@ public class PegawaiController {
 		    				(this.adaJabatan(idJabatan.get(), pegawai)): true ))
 		    		
 		    		{
-		    			System.out.println("Trace Provinsi: "+idProvinsi.get()+" = "+pegawai.getInstansi().getProvinsi().getId());
-		    			System.out.println("Trace Instansi: "+idInstansi.get()+" = "+pegawai.getInstansi().getId());
-		    			System.out.println((Integer.parseInt(idInstansi.get())==pegawai.getInstansi().getId()));
-
 		    			hasilFilter.add(pegawai);
 		    		}
 		    	}
